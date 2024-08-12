@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:49:45 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/08 13:25:05 by lpetit           ###   ########.fr       */
+/*   Updated: 2024/08/12 13:36:18 by lpetit           ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -18,8 +18,9 @@ int main(int argc, char **argv)
 
     if (argc != 2)
         exit(1);
+    if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 4))
+        err_msg("Invalid map extension", &data, 0);
     map_init(argv[1], &data);
-    //printf("%s\n", "here5");
     printf("no_path:%s\n", data.no_path);
     printf("so_path:%s\n", data.so_path);
     printf("we_path:%s\n", data.we_path);

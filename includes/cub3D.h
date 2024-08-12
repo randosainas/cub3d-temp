@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/08 12:11:31 by lpetit           ###   ########.fr       */
+/*   Updated: 2024/08/12 13:32:15 by lpetit           ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -44,18 +44,28 @@ typedef struct s_data
     t_color floor;
     t_color ceiling;
     int     map_start;
+    int     fd;
 }   t_data;
 
 char	**ft_split(char const *s, char c);
-char    *init_element(int fd, t_data *data);
-char    *skip_to_map(int fd, t_data *data);
+char    *init_element(t_data *data);
+//char    *skip_to_map(int fd, t_data *data);
 char    *skip_empty(int fd, t_data *data);
+char    *set_path(char *line, t_data *data);
 
 int get_map_size(char *path, t_data *data);
+int check_rgb(char *line);
+int check_content(char *line, t_data *data);
 
 void    map_init(char  *path, t_data *data);
+void    map_content(char *line, t_data * data);
 void    parse_element(char *line, t_data *data);
+void    set_color_ceiling(char *line, t_data *data);
+void    set_color_floor(char *line, t_data *data);
+
+
 void	free_all_tab(char **tab);
 void	free_texture_path(t_data *data);
+void	err_msg(char *msg, t_data *data, int need_free);
 
 #endif
