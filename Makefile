@@ -6,7 +6,7 @@
 #    By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/27 13:57:50 by lpetit            #+#    #+#              #
-#    Updated: 2024/08/12 13:22:16 by lpetit           ###   ########.fr        #
+#    Updated: 2024/08/14 16:11:47 by lpetit           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -15,7 +15,7 @@ NAME	= cub3D
 CC		= cc
 
 SRCS 	= ./srcs/helper.c ./srcs/map_init.c ./srcs/main.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c \
-			./srcs/map_check.c
+			./srcs/map_check.c ./srcs/closed.c
 
 LIB_DIR = ./libft
 

@@ -6,11 +6,28 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:51:19 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/12 13:32:44 by lpetit           ###   ########.fr       */
+/*   Updated: 2024/08/14 16:29:00 by lpetit           ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "cub3D.h"
+
+void	get_map_size(t_data *data)
+{
+	int	i;
+	size_t size;
+
+	i = 0;
+	size = ft_strlen(data->map[i]);
+	while (data->map[i])
+	{
+		if (size < ft_strlen(data->map[i]))
+			size = ft_strlen(data->map[i]);
+		i++;
+	}
+	data->map_copy.map_size = i;
+	data->map_copy.line_size = size;
+}
 
 char    *skip_empty(int fd, t_data *data)
 {
