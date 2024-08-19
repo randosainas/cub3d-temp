@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:49:45 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/08 13:25:05 by lpetit           ###   ########.fr       */
+/*   Updated: 2024/08/15 09:16:22 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -32,6 +32,10 @@ int main(int argc, char **argv)
         printf("%s\n", data.map[i]);
         i++;
     }
+	data.name = argv[1];
+	init_graphics(&data);
+	render(&data);
+	mlx_loop(data.mlx);
     free_all_tab(data.map);
     free_texture_path(&data);
     return (0);

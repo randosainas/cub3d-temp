@@ -1,12 +1,12 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_init.c                                        :+:      :+:    :+:   */
+/*   map_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:09:19 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/01 18:09:04 by lpetit           ###   ########.fr       */
+/*   Updated: 2024/08/15 08:34:16 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -134,7 +134,7 @@ char    *set_path(char *line)
 
 void    parse_element(char *line, t_data *data)
 {
-    if (ft_strncmp(line, "NO", 2) == 0)
+    if (ft_strncmp(line, "NO", 2) == 0)//TODO will give a false positive in case "NOX"
         data->no_path = set_path(line);
     else if (ft_strncmp(line, "SO", 2) == 0)
         data->so_path = set_path(line);
@@ -162,10 +162,10 @@ char    *init_element(int fd, t_data *data)
     data->we_path = NULL;
     data->ea_path = NULL;
     data->map_start = 0;
-    while (i < 6)
+    while (i < 6)//TODO element integrity check, in case one path is missing
     {
         line = skip_empty(fd, data);
-        parse_element(line, data);
+        parse_element(line, data);//TODO segfaults in case gnl returns NULL to skip_empty;
         if (line)
             free(line);
         i++;
@@ -189,8 +189,8 @@ int check_content(char *line, t_data *data)
                 data->player.face = line[i];
                 data->player.player_found = 1;
                 //printf("i in first if = %d\n", i);
-            }
-            else if (line[i] != '\n' && line[i] != '\0')
+			}
+			else if (line[i] != '\n' && line[i] != '\0')
             {
                 //printf("line =%s\n", line);
                 //printf("line[i]= %c\n", line[i]);
@@ -280,15 +280,15 @@ void    map_init(char  *path, t_data *data)
 
     i = 0;
     fd = open(path, O_RDONLY);
-    if (fd < 0)
+    if (fd < 0)//TODO file extention check .cub
         exit(1);
-    line = init_element(fd, data);
-    buffer = ft_strdup("");
+    line = init_element(fd, data);//TODO skip_empty might return NULL from gnl
+    buffer = ft_strdup("");//TODO malloc fail in strdup
     while (line)
     {
         if (!check_content(line, data))
         {
-            buffer = ft_strjoin_f(buffer, line);
+            buffer = ft_strjoin_f(buffer, line);//TODO malloc fail
             i++;
         }
         else
@@ -298,7 +298,7 @@ void    map_init(char  *path, t_data *data)
         }
         line = get_next_line(fd);
     }
-    data->map = ft_split(buffer, '\n');
+    data->map = ft_split(buffer, '\n');//TODO malloc fail
     free(buffer);
     close(fd);
 }

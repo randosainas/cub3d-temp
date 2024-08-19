@@ -6,7 +6,7 @@
 #    By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/27 13:57:50 by lpetit            #+#    #+#              #
-#    Updated: 2024/08/08 13:38:16 by lpetit           ###   ########.fr        #
+#    Updated: 2024/08/15 18:19:57 by rsainas          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,7 +14,9 @@ NAME	= cub3D
 
 CC		= cc
 
-SRCS 	= ./srcs/helper.c ./srcs/map_init.c ./srcs/main.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
+SRCS 	= ./srcs/helper.c ./srcs/map_init.c ./srcs/main.c \
+./gnl/get_next_line.c ./gnl/get_next_line_utils.c ./srcs/render.c \
+./srcs/init_graphics.c ./srcs/events.c
 
 LIB_DIR = ./libft
 
@@ -25,6 +27,13 @@ INCLUDES = ./includes
 OBJS	= $(SRCS:.c=.o)
 
 FLAGS	= -Wall -Wextra -Werror
+
+MLX_DIR = ./minilibx-linux
+
+X = -L $(MLX_DIR) -lmlx -L /usr/X11R6/lib -lXext -lX11 -lm -lz -I$(MLX_DIR) -Ilmlx
+
+#X		= 	-L $(MLX_DIR) -lm -lmlx -lX11 -lz -I$(MLX_DIR) -Ilmlx
+#X		= 	-L ${MLX_DIR} -lmlx -lXext -lX11 -lm -lz -I${MLX_DIR} -Ilmlx
 
 #Colors:
 GREEN		=	\e[92;5;118m
@@ -41,7 +50,7 @@ $(LIB):
 
 $(NAME):	$(OBJS)
 	@printf "$(CURSIVE)$(GRAY) 	- Compiling $(NAME)... $(RESET)\n"
-	$(CC) $(FLAGS) -I$(INCLUDES) $(OBJS) $(LIB) -o $(NAME)
+	$(CC) $(FLAGS) -I$(INCLUDES) $(OBJS) $(LIB) $(X) -o $(NAME)
 	@printf "$(GREEN)    - Executable ready.\n$(RESET)"
 
 %.o: %.c
