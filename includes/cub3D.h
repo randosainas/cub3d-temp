@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/15 09:45:39 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/19 18:34:51 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -22,9 +22,15 @@
 //# include <X11/X.h>//keyboard key values
 
 
-# define WIN_WIDTH 600
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 1000
+# define WIN_HEIGHT 800
 # define WHITE		(0xFFFFFF)
+# define BLACK		(0x000000)
+# define GREY		(0x808080)
+# define RED		(0xFF0000)
+# define BLUE		(0x0000FF)
+# define GREEN		(0x00FF00)
+# define ORANGE		(0xFFA500)
 
 typedef struct s_pos
 {
@@ -61,6 +67,9 @@ typedef struct s_data
     t_color floor;
     t_color ceiling;
     int     map_start;
+	int		map_w;
+	int		map_h;
+	int		m_cell_size;
 	char	*name;
 	void	*mlx;
 	void	*win;
@@ -85,5 +94,6 @@ void		ft_exit(t_data *data);
 int			close_window(t_data *data);
 int			render(t_data *data);
 void		pixel_put(t_img *img, int x, int y, int color);
-
+void		map_size(t_data *data);
+void		draw_map(t_data *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:22:23 by rsainas           #+#    #+#             */
-/*   Updated: 2024/08/15 09:46:11 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/20 09:16:59 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ int	render(t_data *data)
 		while (x++ < WIN_WIDTH)
 			is_pixel_bounded(data, x, y, ratio);
 	}
+//	if (data->player.player_found)
+//	{
+		printf("player found x: %ld y: %ld\n", data->player.x, data->player.y);
+		draw_map(data);	
+//	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:49:45 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/15 09:16:22 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/20 09:17:10 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -33,7 +33,8 @@ int main(int argc, char **argv)
         i++;
     }
 	data.name = argv[1];
-	init_graphics(&data);
+	init_graphics(&data);	
+	map_size(&data);
 	render(&data);
 	mlx_loop(data.mlx);
     free_all_tab(data.map);
