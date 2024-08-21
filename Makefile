@@ -6,7 +6,7 @@
 #    By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/27 13:57:50 by lpetit            #+#    #+#              #
-#    Updated: 2024/08/19 16:07:01 by rsainas          ###   ########.fr        #
+#    Updated: 2024/08/21 11:17:20 by rsainas          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,6 +16,7 @@ CC		= cc
 
 SRCS 	= ./srcs/helper.c ./srcs/map_init.c ./srcs/main.c \
 ./gnl/get_next_line.c ./gnl/get_next_line_utils.c ./srcs/render.c \
+./srcs/map_check.c ./srcs/closed.c \
 ./srcs/init_graphics.c ./srcs/events.c ./srcs/draw_map.c
 
 LIB_DIR = ./libft

@@ -6,7 +6,7 @@
 #    By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/20 12:47:37 by lpetit            #+#    #+#              #
-#    Updated: 2024/08/08 13:22:01 by lpetit           ###   ########.fr        #
+#    Updated: 2024/08/12 13:25:33 by lpetit           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -48,6 +48,7 @@ bonus:		$(OBJ_BONUS)
 
 clean:
 		rm -f $(OBJ)
+		rm -f $(OBJ_BONUS)
 
 fclean:		clean
 		rm -f $(NAME)

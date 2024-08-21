@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/19 18:34:51 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/21 11:18:10 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -31,6 +31,12 @@
 # define BLUE		(0x0000FF)
 # define GREEN		(0x00FF00)
 # define ORANGE		(0xFFA500)
+
+typedef struct s_copy
+{
+    int map_size;
+    int line_size;
+}   t_copy;
 
 typedef struct s_pos
 {
@@ -66,7 +72,9 @@ typedef struct s_data
     char    *ea_path;
     t_color floor;
     t_color ceiling;
+    t_copy  map_copy;
     int     map_start;
+<<<<<<< HEAD
 	int		map_w;
 	int		map_h;
 	int		m_cell_size;
@@ -74,19 +82,33 @@ typedef struct s_data
 	void	*mlx;
 	void	*win;
 	t_img	img;
+=======
+    int     closed;
+    int     fd;
+>>>>>>> map
 }   t_data;
 
 char	**ft_split(char const *s, char c);
-char    *init_element(int fd, t_data *data);
-char    *skip_to_map(int fd, t_data *data);
+char    *init_element(t_data *data);
+//char    *skip_to_map(int fd, t_data *data);
 char    *skip_empty(int fd, t_data *data);
+char    *set_path(char *line, t_data *data);
 
-int get_map_size(char *path, t_data *data);
+void    get_map_size(t_data *data);
+int check_rgb(char *line);
+int check_content(char *line, t_data *data);
+int check_if_closed(t_data *data);
 
 void    map_init(char  *path, t_data *data);
+void    map_content(char *line, t_data * data);
 void    parse_element(char *line, t_data *data);
+void    set_color_ceiling(char *line, t_data *data);
+void    set_color_floor(char *line, t_data *data);
+
+
 void	free_all_tab(char **tab);
 void	free_texture_path(t_data *data);
+void	err_msg(char *msg, t_data *data, int need_free);
 
 // GRAPHICS
 void		init_graphics(t_data *data);
