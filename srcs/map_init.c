@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:09:19 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/21 11:25:56 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/21 11:36:53 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -103,25 +103,6 @@ char    *set_path(char *line, t_data *data)
     if (!dup)
         err_msg("Could not allocate memory for the elements", data, 1);
     return (dup);
-}
-
-void    parse_element(char *line, t_data *data)
-{
-    if (ft_strncmp(line, "NO", 2) == 0)//TODO will give a false positive in case "NOX"
-        data->no_path = set_path(line);
-    else if (ft_strncmp(line, "SO", 2) == 0)
-        data->so_path = set_path(line);
-    else if (ft_strncmp(line, "WE", 2) == 0)
-        data->we_path = set_path(line);
-    else if (ft_strncmp(line, "EA", 2) == 0)
-        data->ea_path = set_path(line);
-    else if (ft_strncmp(line, "F ", 2) == 0)
-        set_color_floor(line, data);
-    else if (ft_strncmp(line, "C ", 2) == 0)
-        set_color_ceiling(line, data);
-    else
-        exit(1);
-    data->map_start++;
 }
 
 char    *init_element(t_data *data)

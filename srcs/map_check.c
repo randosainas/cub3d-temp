@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 13:16:23 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/12 13:33:50 by lpetit           ###   ########.fr       */
+/*   Updated: 2024/08/21 11:36:45 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -76,7 +76,7 @@ void    map_content(char *line, t_data * data)
 
 void    parse_element(char *line, t_data *data)
 {
-    if (ft_strncmp(line, "NO", 2) == 0)
+    if (ft_strncmp(line, "NO", 2) == 0)//TODO will give a false positive in case "NOX"
         data->no_path = set_path(line, data);
     else if (ft_strncmp(line, "SO", 2) == 0)
         data->so_path = set_path(line, data);

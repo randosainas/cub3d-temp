@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/21 11:18:10 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/21 11:30:39 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -74,7 +74,6 @@ typedef struct s_data
     t_color ceiling;
     t_copy  map_copy;
     int     map_start;
-<<<<<<< HEAD
 	int		map_w;
 	int		map_h;
 	int		m_cell_size;
@@ -82,10 +81,8 @@ typedef struct s_data
 	void	*mlx;
 	void	*win;
 	t_img	img;
-=======
     int     closed;
     int     fd;
->>>>>>> map
 }   t_data;
 
 char	**ft_split(char const *s, char c);

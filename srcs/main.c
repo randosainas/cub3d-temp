@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:49:45 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/21 11:20:07 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/22 09:50:00 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -19,7 +19,8 @@ int main(int argc, char **argv)
     if (argc != 2)
         exit(1);
     if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 4))
-        err_msg("Invalid map extension", &data, 0);
+		err_msg("Invalid map extension", &data, 0);
+	map_init(argv[1], &data);
     //printf("no_path:%s\n", data.no_path);
     //printf("so_path:%s\n", data.so_path);
     //printf("we_path:%s\n", data.we_path);
@@ -33,8 +34,7 @@ int main(int argc, char **argv)
     //    i++;
     //}
     if (check_if_closed(&data) == 1)
-        err_msg("Map is not closed", &data, 1);
-	map_init(argv[1], &data);
+		err_msg("Map is not closed", &data, 1);
 	data.name = argv[1];
 	init_graphics(&data);	
 	map_size(&data);
