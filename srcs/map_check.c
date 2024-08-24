@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 13:16:23 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/21 11:36:45 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/22 11:00:53 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -30,6 +30,18 @@ int check_rgb(char *line)
     return (0);
 }
 
+static void	assign_face(t_data *data, char c)
+{
+	if (c == 'E')
+		data->player.face = 0;
+	if (c == 'S')
+		data->player.face = 90;
+	if (c == 'W')
+		data->player.face = 180;
+	if (c == 'N')
+		data->player.face = 270;
+}	
+
 int check_content(char *line, t_data *data)
 {
     int i;
@@ -42,7 +54,7 @@ int check_content(char *line, t_data *data)
             if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
                 && data->player.player_found == 0)
             {
-                data->player.face = line[i];
+				assign_face(data, line[i]);
                 data->player.player_found = 1;
             }
             else if ((line[i] != '\n' && line[i] != '\0') || (i == 0 && line[i] == '\n'))
