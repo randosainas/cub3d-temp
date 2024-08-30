@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:09:19 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/21 11:36:53 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/27 15:29:49 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -123,7 +123,7 @@ char    *init_element(t_data *data)
         line = skip_empty(data->fd, data);
         if (!line)
             return (NULL);
-        parse_element(line, data);//TODO segfaults in case gnl returns NULL to skip_empty;
+        parse_element(line, data);
         if (line)
             free(line);
         i++;

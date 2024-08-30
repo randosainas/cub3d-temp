@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/23 19:02:28 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/08/30 15:03:41 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -25,7 +25,7 @@
 //Main settings
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 800
-# define H_FOV 30
+# define H_FOV 60
 # define PI 3.1415926
 
 //Colors
@@ -51,6 +51,16 @@ typedef struct s_pos
     int    face;
     int     player_found;
 }   t_pos;
+
+//each ray has a slope and the first line crossing point and its projections
+//x_d and y_d, angle in radian
+typedef struct	s_ray
+{
+	double	angle;
+	double	slope;
+	double	x_di;
+	double	y_di;
+}	t_ray;
 
 typedef struct s_color
 {
@@ -84,6 +94,7 @@ typedef struct s_data
 	int		map_h;
 	int		m_start_y;//2D map y position
 	int		m_cell_size;
+	t_ray	ray;
 	double	ray_dist;
 	char	*name;
 	void	*mlx;
@@ -123,5 +134,5 @@ int			render(t_data *data);
 void		pixel_put(t_img *img, int x, int y, int color);
 void		map_size(t_data *data);
 void		draw_map(t_data *data);
-void		cast_ray(t_data *data);
+void		cast_rays(t_data *data);
 #endif
