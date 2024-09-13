@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/30 15:03:41 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/13 11:01:29 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -25,7 +25,7 @@
 //Main settings
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 800
-# define H_FOV 60
+# define H_FOV 90
 # define PI 3.1415926
 
 //Colors
