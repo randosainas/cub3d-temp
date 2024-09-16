@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/09/13 11:01:29 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/16 09:27:35 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -89,6 +89,7 @@ typedef struct s_data
     t_color floor;
     t_color ceiling;
     t_copy  map_copy;
+	int		**buffer;
     int     map_start;
 	int		map_w;
 	int		map_h;
