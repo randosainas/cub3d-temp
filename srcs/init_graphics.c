@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:03:12 by rsainas           #+#    #+#             */
-/*   Updated: 2024/08/15 10:36:12 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:52:19 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ static	void	data_init(t_data *data)
 static	void	events_init(t_data *data)
 {	
 	mlx_hook(data->win, 17, 0, close_window, data);
-//	mlx_key_hook(data->win, key_stroke, data);
+	mlx_key_hook(data->win, key_stroke, data);
+	init_player_pos(data);
+	data->step = 1;
+	data->ray.player_x = -1;
+	data->ray.player_y = 0;
 //	mlx_mouse_hook(data->win, mouse_roll, data);
 }
 

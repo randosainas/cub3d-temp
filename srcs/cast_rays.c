@@ -6,160 +6,111 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:37:59 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/16 09:27:24 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/19 20:49:43 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "cub3d.h"
+#include "cub3D.h"
 
-//WALL CASTING
-
-void	cast_walls()
+void	cast_walls(t_data *data)
 {
-	double	dirX;
-	double dirY;
-	double	planeX;
-	double planeY;
-
-
-	dirX = -1;//TODO figure out if this is facing west?
-	dirY = 0;
-	planeX = 0;
-	planeY = 0.66;
-    
-	for(int x = 0; x < WIN_WIDTH; x++)
-    {
-      //calculate ray position and direction
-	double	cameraX;
-	
-	cameraX = 0;  
-	cameraX = 2 * x / double(WIN_WIDTH) - 1; //x-coordinate in camera space
-
-	double	rayDirX;
- 	double	rayDirX;
-
-	rayDirX = 0;
-	rayDirY = 0;
-	  
-	rayDirX = dirX + planeX * cameraX;
-    rayDirY = dirY + planeY * cameraX;
-
-      //which box of the map we're in
-	int	mapX;
-	int	mapY;
-	
-	mapX = int(data->player.x);
-	mapY = int(data->player.y);
-
-      //length of ray from current position to next x or y-side
-	double	sideDistX;
- 	double	sideDistY;
-
-      //length of ray from one x or y-side to next x or y-side
-	double	detaDistX;
-	double	deltaDistY;
-	  
-	deltaDistX = fabs(1 / rayDirX);
-	deltaDistY = abs(1 / rayDirY);
 	double	perpWallDist;
+    int drawStart;
+    int drawEnd;
+    /*double wallX;
+	int texX;
+    int texY;	
+	double step;
+    int texNum;
+	double texPos;*/
+	int color;
+	int y;
+/*
 
-      //what direction to step in x or y-direction (either +1 or -1)
-	int	stepX;
-	int	stepY;
+*/
+    
+	int i;
+	i = 0;
+	while (i < WIN_WIDTH - 1)
+    {
+		scale_pos_dir(data, i);
+		comp_ray_side_step(data);
+		move_along_ray_dda(data);
 
-	int hit = 0; //was there a wall hit?
- 	int side; //was a NS or a EW wall hit?
-
-      //calculate step and initial sideDist
-      if (rayDirX < 0)
-      {
-        stepX = -1;
-        sideDistX = (data->player.x - mapX) * deltaDistX;
-      }
-      else
-    ports assiging that value.  {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - data->player.x) * deltaDistX;
-      }
-      if (rayDirY < 0)
-      {
-        stepY = -1;
-        sideDistY = (data->player.y - mapY) * deltaDistY;
-      }
-      else
-      {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - data->player.y) * deltaDistY;
-      }
-	}
-    //perform DDA
-      while (hit == 0)
-      {
-        //jump to next map square, either in x-direction, or in y-direction
-        if (sideDistX < sideDistY)
-        {
-          sideDistX += deltaDistX;
-          mapX += stepX;
-          side = 0;
-        }
-        else
-        {
-          sideDistY += deltaDistY;
-          mapY += stepY;
-          side = 1;
-        }
-        //Check if ray has hit a wall
-        if (ft_atoi(data->map[mapX][mapY]) > 0) hit = 1;
-      }
-
-      //Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
-      if(side == 0) perpWallDist = (sideDistX - deltaDistX);
-      else          perpWallDist = (sideDistY - deltaDistY);
-
-      //Calculate height of line to draw on screen
-      int lineHeight = (int)(h / perpWallDist);
-
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + h / 2;
-      if(drawStart < 0) drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2;
-      if(drawEnd >= h) drawEnd = h - 1;
-      //texturing calculations
-      int texNum = ft_atoi(data->map[mapX][mapY]) - 1; //1 subtracted from it so that texture 0 can be used!
-
-      //calculate value of wallX
-      double wallX; //where exactly the wall was hit
-      if (side == 0) wallX = data->player.y + perpWallDist * rayDirY;
-      else           wallX = data->payer.x + perpWallDist * rayDirX;
-      wallX -= floor((wallX));
-
-      //x coordinate on the texture
-      int texX = int(wallX * double(texWidth));
-      if(side == 0 && rayDirX > 0) texX = texWidth - texX - 1;
-      if(side == 1 && rayDirY < 0) texX = texWidth - texX - 1;
+		/*Calculate distance of perpendicular ray (
+			Euclidean distance would give fisheye effect!)*/
+/*
+@glance				comp distance from player to the hit wall. 
+ray.side_x or y		has an additioal incremental distance prior the hit, that 
+					needs to be substracted to get the distance to the hit wall
+@line_h				line height to be drawn on the screen is inversly
+					releated to window height. The closer the wall to player
+					the higher the line on the screen.
+*/
+		if (data->ray.side == 0)
+			perpWallDist = (data->ray.side_x - data->ray.delta_x);
+		else
+			perpWallDist = (data->ray.side_y - data->ray.delta_y);
+    	//Calculate height of line to draw on screen
+		data->ray.line_h = (int)(WIN_HEIGHT / perpWallDist);
+//		printf("ray.side_x %f, ray.side_y %f, ray.delta_x %f, ray.delta_y %f, perWallDist %f, lineH %d\n",
+//		data->ray.side_x, data->ray.side_y, data->ray.delta_x, data->ray.delta_y, perpWallDist, data->ray.line_h);
+	 	//calculate lowest and highest pixel to fill in current stripe
+		drawStart = -data->ray.line_h / 2 + WIN_HEIGHT / 2;
+		if (drawStart < 0)
+			drawStart = 0;
+		drawEnd = data->ray.line_h / 2 + WIN_HEIGHT / 2;
+		if (drawEnd >= WIN_HEIGHT)
+			drawEnd = WIN_HEIGHT - 1;
+    	  //texturing calculations
+/*			texNum = ft_atoi(&(data->map[data->ray.map_x][data->ray.map_y])) - 1; //1 subtracted from 
+				//it so that texture 0 can be used!
+   			 	  //calculate value of wallX
+     			 //where exactly the wall was hit 
+		if (data->ray.side == 0) 
+			wallX = data->player.y + perpWallDist * data->ray.y;
+		else
+			wallX = data->player.x + perpWallDist * data->ray.x;
+				 //	wallX -= floor((wallX));
+			      //x coordinate on the texture
+		texX = (int)wallX * (double)TEXTURE_W;
+		if ((data->ray.side == 0 && data->ray.x > 0) || (data->ray.side == 1 && data->ray.y < 0))
+		{
+			texX = TEXTURE_W - texX -1;
+		}
+//	if (data->ray.side == 1 && data->ray.y < 0)
+//		texX = TEXTURE_W - texX - 1;
 
       // How much to increase the texture coordinate per screen pixel
-      double step = 1.0 * texHeight / lineHeight;
+	step = 1.0 * TEXTURE_H / data->ray.line_h;
       // Starting texture coordinate
-      double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
+	texPos = (drawStart - WIN_HEIGHT / 2 + data->ray.line_h / 2) * step;
+*/
 //allocate buffer int array of arrays
-	int i;
+//	int i;
 
-	i = 0;
-	while (i < WIN_WIDHT, i++)
+//	i = 0;
+	/*while (i < WIN_WIDHT, i++)
 	{
 	  data->buffer[i] = ft_calloc(WIN_HEIGHT, sizeof(int));
 	  if (!data->buffer[i])
 		 exit();//TODO proper free
-	}	
-	
-	for(int y = drawStart; y<drawEnd; y++)
-      {
+	}	*/
+	y = drawStart;
+	while (y < drawEnd)
+     {
         // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-        int texY = (int)texPos & (texHeight - 1);
-        texPos += step;
-        Uint32 color = GREY;//texture[texNum][texWidth * texY + texX];
+//		texY = (int)texPos;// & (TEXTURE_H - 1);
+//      texPos += step;
+		color = GREY;// + TEXTURE_W + texY + texX;
+ //       int color = texture[texNum][TEXTURE_W * texY + texX];
         //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-        if(side == 1) color = (color >> 1) & 8355711;
-        buffer[y][x] = color;
+        if (data->ray.side == 1)
+			color = (color >> 1) & 8355711;
+		pixel_put(&data->img, i, y, color);
+		y++;
       }
+//	printf("---------------------------Column on screen %d drawStart %d drawEnd %d\n", i, drawStart, drawEnd);
+	i++;
+	}
+//	printf("End of loop %d\n", x);
 }

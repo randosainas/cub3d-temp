@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 15:07:49 by rsainas           #+#    #+#             */
-/*   Updated: 2024/08/23 17:47:38 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/19 17:14:19 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	draw_player(t_data *data, int y, int x, int start_y)
 	{		
 		data->player.x = x * data->m_cell_size;
 		data->player.y = start_y + y * data->m_cell_size;
+//		printf("player pos player.x_i %d y %d\n", data->player.x_i, data->player.y_i);
 		return (ORANGE);
 	}
 //		return (draw_payer_eye(data, int y, int x), ORAGE);
@@ -100,7 +101,7 @@ void	draw_map(t_data *data)
 	int color;
 
 
-	data->m_cell_size = (int)(0.5 * WIN_WIDTH / data->map_w);
+	data->m_cell_size = (int)(0.25 * WIN_WIDTH / data->map_w);
 	data->m_start_y = WIN_HEIGHT - (data->m_cell_size * data->map_h);	
 	y = 0;
 	color = WHITE;
@@ -120,7 +121,7 @@ void	draw_map(t_data *data)
 		}
 		y++;
 	}
-	printf("existance %d, player pos x %ld y %ld, face %d, cell %d\n",
-			data->player.player_found,
+	printf("existance %d, player current pos x:y %d:%d\n player unnorm pos x %ld y %ld, face %d, cell %d\n",
+			data->player.player_found, data->player.x_i, data->player.y_i,
 			data->player.x, data->player.y, data->player.face, data->m_cell_size);
 }

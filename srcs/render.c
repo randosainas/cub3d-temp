@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:22:23 by rsainas           #+#    #+#             */
-/*   Updated: 2024/08/30 14:39:44 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/16 11:54:26 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	render(t_data *data)
 	if (data->player.player_found)
 	{
 		draw_map(data);
-		cast_rays(data);	
+		cast_walls(data);
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	return (0);

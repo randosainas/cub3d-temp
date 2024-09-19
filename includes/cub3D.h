@@ -6,27 +6,29 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/09/16 09:27:35 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:17:37 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <stdlib.h>
-#include <fcntl.h>
-#include "libft.h"
-#include "get_next_line.h"
-#include <stdio.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include "libft.h"
+# include "get_next_line.h"
+# include <stdio.h>
 # include "../minilibx-linux/mlx.h"
-#include "math.h"
-//# include <X11/X.h>//keyboard key values
+# include "math.h"
+# include <X11/X.h>//keyboard key values
 
 //Main settings
 # define WIN_WIDTH 1000
 # define WIN_HEIGHT 800
 # define H_FOV 90
 # define PI 3.1415926
+# define TEXTURE_H 64
+# define TEXTURE_W 64
 
 //Colors
 # define WHITE		(0xFFFFFF)
@@ -46,16 +48,34 @@ typedef struct s_copy
 
 typedef struct s_pos
 {
-    size_t  x;
+    size_t  x;//for 2D minimap
     size_t  y;
-    int    face;
-    int     player_found;
+	int		x_i;//initial posX of player
+	int		y_i;
+    int		face;
+    int		player_found;
 }   t_pos;
 
 //each ray has a slope and the first line crossing point and its projections
 //x_d and y_d, angle in radian
 typedef struct	s_ray
 {
+	double	player_x;//directional vector components
+	double	player_y;
+	int		map_x;
+	int		map_y;
+	int		hit;
+	double	side_x;
+ 	double	side_y;
+	double	delta_x;
+	double	delta_y;
+	int		step_x;
+	int		step_y;
+	int		side;
+	double	x;
+ 	double	y;
+	int		line_h; 	
+//old stuff
 	double	angle;
 	double	slope;
 	double	x_di;
@@ -89,7 +109,6 @@ typedef struct s_data
     t_color floor;
     t_color ceiling;
     t_copy  map_copy;
-	int		**buffer;
     int     map_start;
 	int		map_w;
 	int		map_h;
@@ -101,6 +120,7 @@ typedef struct s_data
 	void	*mlx;
 	void	*win;
 	t_img	img;
+	double	step;//step size, how much the player moves on one keypress
     int     closed;
     int     fd;
 }   t_data;
@@ -136,4 +156,11 @@ void		pixel_put(t_img *img, int x, int y, int color);
 void		map_size(t_data *data);
 void		draw_map(t_data *data);
 void		cast_rays(t_data *data);
+//vector approach
+void		cast_walls(t_data *data);
+void		scale_pos_dir(t_data *data, int i);
+void		comp_ray_side_step(t_data *data);
+void		move_along_ray_dda(t_data *data);
+int			key_stroke(int key, t_data *data);
+void		init_player_pos(t_data *data);
 #endif

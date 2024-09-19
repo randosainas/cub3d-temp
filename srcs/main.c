@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:49:45 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/22 09:50:00 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/19 15:20:57 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -37,7 +37,6 @@ int main(int argc, char **argv)
 		err_msg("Map is not closed", &data, 1);
 	data.name = argv[1];
 	init_graphics(&data);	
-	map_size(&data);
 	render(&data);
 	mlx_loop(data.mlx);
     free_all_tab(data.map);
