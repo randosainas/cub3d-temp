@@ -6,43 +6,37 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:31:04 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/19 09:52:00 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:47:53 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3D.h>
 /*
-@glance			scale the screen with, comp ray direction and ray vector.
+@glance			scale the screen width, comp ray direction and ray vector.
 @scale & norm 	scale_x=2* this enables to scale the screen width
 				ie [0,1000] to [-1,1], multiplication by one would 
 				scale it to [0,1]. Screen plane extends to the negative
 				side form players position.
-@ray[x,y]		is ray vector and its x and y axis deltas and represent
-				a direction a way is casted. So the ray ranges from
-				[-1, -0.66] to [1, 0.66]
-@->player_x		player directional vector components, vector from
-				player position to camera plane vector. Perpendicular
+@->ray[x,y]		a ray vector and its x and y axis deltas/projections
+				and represent a direction a ray is casted. 
+				So the rays range from [-1, -0.66] to [1, 0.66].
+@->player_x		player directional vector and its components, vector from
+				player position to camera plane vector and perpendicular
 				to camera plane vector.
-@ray.delta_x	scaled distance a ray must travel on x-axis to cross
-				the next vertcal line.
+@ray.delta_x	scaled distance a ray must travel (projected on x-axis) to 
+				cross the next vertcal line.
 @1e-8			a very small number to make a reliable double number 
 				comparison to 0. Needed to avoid division by 0.
 */
 
 void	scale_pos_dir(t_data *data, int i)
 {
-	double	plane_x;
-	double plane_y;	
 	double	scale_x;
 
-	plane_x = 0;
-	plane_y = 0.66;
-
 	scale_x = 2 * i / (double)WIN_WIDTH - 1; //x-coordinate in camera space
-	data->ray.x = data->ray.player_x + plane_x * scale_x;
-	data->ray.y = data->ray.player_y + plane_y * scale_x;
+	data->ray.x = data->ray.player_x + data->ray.plane_x * scale_x;
+	data->ray.y = data->ray.player_y + data->ray.plane_y * scale_x;
 //	printf("scale_x %f data->ray.x/Y %f / %f\n", scale_x, data->ray.x, data->ray.y);
-  //which box of the map  in
 	data->ray.map_x = data->player.x_i;
 	data->ray.map_y = data->player.y_i;
 //	printf("player's box: %d / %d\n", data->ray.map_x, data->ray.map_y);

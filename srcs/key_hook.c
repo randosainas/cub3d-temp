@@ -6,12 +6,45 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 19:58:37 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/19 15:55:00 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/20 13:02:31 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+static void	key_r_l(int key, t_data *data)
+{
+	double temp_player_x;
+	double temp_plane_x;
+
+	temp_player_x = data->ray.player_x;
+	temp_plane_x = data->ray.plane_x;
+
+	if (key == 0X61)//a
+	{
+		data->ray.player_x = data->ray.player_x * cos(data->rot) -
+			data->ray.player_y * sin(data->rot);
+		data->ray.player_y = temp_player_x * sin(data->rot) +
+			data->ray.player_y * cos(data->rot);
+		data->ray.plane_x = data->ray.plane_x * cos(data->rot) -
+			data->ray.plane_y * sin(data->rot);
+		data->ray.plane_y = temp_plane_x * sin(data->rot) + 
+			data->ray.plane_y * cos(data->rot);
+	}
+	if (key == 0X64)//d
+	{
+		data->ray.player_x = data->ray.player_x * cos(- data->rot) -
+			data->ray.player_y * sin(- data->rot);
+		data->ray.player_y = temp_player_x * sin(- data->rot) +
+			data->ray.player_y * cos(- data->rot);
+		data->ray.plane_x = data->ray.plane_x * cos(- data->rot) -
+			data->ray.plane_y * sin(- data->rot);
+		data->ray.plane_y = temp_plane_x * sin(- data->rot) + 
+			data->ray.plane_y * cos(- data->rot);
+	}
+}
+
+	
 /*
 @glance			mlx loop is listening for a key stroke, if key pressed
 				values are changed and the image is rendered again.
@@ -32,7 +65,7 @@ int	key_stroke(int key, t_data *data)
 	}
 	if (key == 0X77)//w
 	{
-		printf("w pressed\n");
+		printf("w pressed\n");//adding a step towards the direction
 		if (data->map[(int)(data->player.x_i + data->ray.player_x * data->step)]
 				[(int)data->player.y_i] == '0')
 		{
@@ -58,22 +91,11 @@ int	key_stroke(int key, t_data *data)
 				data->ray.player_y * data->step)]  == '0')
 			data->player.y_i -= data->ray.player_y * data->step;
 	}
-
-	if (key == 0Xff52)//up
-		data->ray.player_x -= 0.1;
-
+	key_r_l(key,data);
 	if (key == 0Xff51)//left
-		data->ray.player_y -= 0.1;
+		data->ray.player_y -= 0.3;
 	if (key == 0Xff53)//right
-		data->ray.player_y += 0.1;
-	if (key == 0X3d)
-		printf("3d\n");
-	if (key == 0X2d)
-		printf("2d\n");
-	if (key == 0Xff0d)//w
-		data->ray.map_y -= 1;
-
-//	if (key == 0Xff54)//down
+		data->ray.player_y += 0.3;
 	render(data);
 	return (0);
 }

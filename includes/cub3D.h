@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/09/19 15:17:37 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:46:03 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -50,7 +50,7 @@ typedef struct s_pos
 {
     size_t  x;//for 2D minimap
     size_t  y;
-	int		x_i;//initial posX of player
+	int		x_i;//initial pos of player
 	int		y_i;
     int		face;
     int		player_found;
@@ -74,7 +74,13 @@ typedef struct	s_ray
 	int		side;
 	double	x;
  	double	y;
-	int		line_h; 	
+	int		line_h;
+	int		line_start;
+	int		line_end;	
+	double	p_wall_dist;
+	double	plane_x;
+	double	plane_y;
+
 //old stuff
 	double	angle;
 	double	slope;
@@ -121,7 +127,8 @@ typedef struct s_data
 	void	*win;
 	t_img	img;
 	double	step;//step size, how much the player moves on one keypress
-    int     closed;
+	double	rot;//rotation left and right
+	int     closed;
     int     fd;
 }   t_data;
 
@@ -155,12 +162,13 @@ int			render(t_data *data);
 void		pixel_put(t_img *img, int x, int y, int color);
 void		map_size(t_data *data);
 void		draw_map(t_data *data);
-void		cast_rays(t_data *data);
 //vector approach
-void		cast_walls(t_data *data);
+void		cast_rays(t_data *data);
 void		scale_pos_dir(t_data *data, int i);
 void		comp_ray_side_step(t_data *data);
 void		move_along_ray_dda(t_data *data);
+void		dist_to_wall(t_data *data);
+void		comp_textures(t_data *data);
 int			key_stroke(int key, t_data *data);
 void		init_player_pos(t_data *data);
 #endif
