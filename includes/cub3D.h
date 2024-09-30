@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/09/20 12:46:03 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 08:05:35 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -50,7 +50,7 @@ typedef struct s_pos
 {
     size_t  x;//for 2D minimap
     size_t  y;
-	int		x_i;//initial pos of player
+	int		x_i;//current pos of player
 	int		y_i;
     int		face;
     int		player_found;

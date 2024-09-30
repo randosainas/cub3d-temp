@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 19:58:37 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/20 13:02:31 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 08:38:10 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,23 @@ int	key_stroke(int key, t_data *data)
 		exit (EXIT_SUCCESS);
 	}
 	if (key == 0X77)//w
-	{
+	{			
+		printf("I want to take this step x %f, int x %d, int y %d, map %c\n",
+					(data->player.x_i + data->ray.player_x * data->step),
+					(int)(data->player.x_i + data->ray.player_x * data->step),
+					(int)data->player.y_i,
+					data->map[(int)(data->player.x_i + data->ray.player_x * data->step)]
+					[(int)data->player.y_i]);
 		printf("w pressed\n");//adding a step towards the direction
 		if (data->map[(int)(data->player.x_i + data->ray.player_x * data->step)]
 				[(int)data->player.y_i] == '0')
 		{
 			printf("player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
-			data->player.x_i += data->ray.player_x * data->step;
 			printf("after step: player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
+			data->player.x_i += data->ray.player_x * data->step;
 		}
+//		else
+//			printf("cannot move, player to-be pos x %d, y %y \n", data->player.x_i, data->player_y_i)
 		if (data->map[(int)data->player.x_i][(int)(data->player.y_i +
 				data->ray.player_y * data->step)]  == '0')
 			data->player.y_i += data->ray.player_y * data->step;

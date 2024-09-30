@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:03:12 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/20 12:57:08 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 08:14:55 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ static	void	pixel_addr_init(t_data *data)
 static	void	data_init(t_data *data)
 {
 	(void)data;
-//	data->iterations = 19;
-//	data->shift_x = 0.0;
-//	data->shift_y = 0.0;
-//	data->zoom = 1.0;
 }
 
 /*

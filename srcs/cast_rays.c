@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:37:59 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/20 12:12:46 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 08:27:17 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3D.h"
@@ -32,11 +32,16 @@ void	dist_to_wall(t_data *data)
 	else
 		data->ray.p_wall_dist = (data->ray.side_y - data->ray.delta_y);
 	//Calculate height of line to draw on screen
+	if (fabs(data->ray.p_wall_dist) < 1e-8)//double is 0
+		data->ray.p_wall_dist = 1;//display the wall to max height
 	data->ray.line_h = (int)(WIN_HEIGHT / data->ray.p_wall_dist);
 //	printf("ray.side_x %f, ray.side_y %f, ray.delta_x %f, ray.delta_y %f, perWallDist %f, lineH %d\n",
 ///	data->ray.side_x, data->ray.side_y, data->ray.delta_x, data->ray.delta_y, data->ray.p_wall_dist, data->ray.line_h);
  
 	//calculate lowest and highest pixel to fill in current stripe
+	/*printf("side %d, dist %f, side_x %f, delta_x %f, side y %f, delta_y %f \n",
+			data->ray.side,  data->ray.p_wall_dist, data->ray.side_x, data->ray.delta_x,
+			data->ray.side_y, data->ray.delta_y);*/
 	data->ray.line_start = -data->ray.line_h / 2 + WIN_HEIGHT / 2;
 	if (data->ray.line_start < 0)
 		data->ray.line_start = 0;
@@ -94,7 +99,7 @@ void	cast_rays(t_data *data)
 	int i;
 	
 	i = 0;
-	while (i < WIN_WIDTH - 1)
+	while (i < WIN_WIDTH)
     {
 		scale_pos_dir(data, i);
 		comp_ray_side_step(data);
@@ -107,7 +112,7 @@ void	cast_rays(t_data *data)
  // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
 //		texY = (int)texPos;// & (TEXTURE_H - 1);
 //      texPos += step;
-		color = GREY;// + TEXTURE_W + texY + texX;
+		color = ORANGE;// + TEXTURE_W + texY + texX;
  //       int color = texture[texNum][TEXTURE_W * texY + texX];
         //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
         	if (data->ray.side == 1)
