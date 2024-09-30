@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:22:23 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/20 14:50:16 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 15:46:15 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	render(t_data *data)
 	}
 	if (data->player.player_found)
 	{
+		draw_ceiling_floor(data);
 		cast_rays(data);
 		draw_map(data);
 	}

@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:49:45 by lpetit            #+#    #+#             */
-/*   Updated: 2024/09/19 15:20:57 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 16:10:46 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -25,8 +25,8 @@ int main(int argc, char **argv)
     //printf("so_path:%s\n", data.so_path);
     //printf("we_path:%s\n", data.we_path);
     //printf("ea_path:%s\n", data.ea_path);
-    //printf("floor:%d %d %d\n", data.floor.r, data.floor.g, data.floor.b);
-    //printf("ceiling:%d %d %d\n\n", data.ceiling.r, data.ceiling.g, data.ceiling.b);
+    printf("floor:%d %d %d\n", data.floor.r, data.floor.g, data.floor.b);
+    printf("ceiling:%d %d %d\n\n", data.ceiling.r, data.ceiling.g, data.ceiling.b);
     //int i = 0;
     //while (data.map[i])
     //{

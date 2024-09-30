@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 19:58:37 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/30 08:38:10 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 19:24:23 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	key_r_l(int key, t_data *data)
 	temp_player_x = data->ray.player_x;
 	temp_plane_x = data->ray.plane_x;
 
-	if (key == 0X61)//a
+	if (key == 0x61 || key == 0xff51)//a
 	{
 		data->ray.player_x = data->ray.player_x * cos(data->rot) -
 			data->ray.player_y * sin(data->rot);
@@ -31,7 +31,7 @@ static void	key_r_l(int key, t_data *data)
 		data->ray.plane_y = temp_plane_x * sin(data->rot) + 
 			data->ray.plane_y * cos(data->rot);
 	}
-	if (key == 0X64)//d
+	if (key == 0x64 || key == 0xff53)//d
 	{
 		data->ray.player_x = data->ray.player_x * cos(- data->rot) -
 			data->ray.player_y * sin(- data->rot);
@@ -57,26 +57,26 @@ static void	key_r_l(int key, t_data *data)
 
 int	key_stroke(int key, t_data *data)
 {
-	if (key == 0Xff1b)
+	if (key == 0xff1b)
 	{
 		ft_putstr_fd(", ESC key pressed.\n", 1);
 //		ft_exit(head);//TODO cleaning
 		exit (EXIT_SUCCESS);
 	}
-	if (key == 0X77)//w
+	if (key == 0x77 || key == 0xff52)//w
 	{			
-		printf("I want to take this step x %f, int x %d, int y %d, map %c\n",
-					(data->player.x_i + data->ray.player_x * data->step),
-					(int)(data->player.x_i + data->ray.player_x * data->step),
-					(int)data->player.y_i,
-					data->map[(int)(data->player.x_i + data->ray.player_x * data->step)]
-					[(int)data->player.y_i]);
-		printf("w pressed\n");//adding a step towards the direction
+//		printf("I want to take this step x %f, int x %d, int y %d, map %c\n",
+//					(data->player.x_i + data->ray.player_x * data->step),
+//					(int)(data->player.x_i + data->ray.player_x * data->step),
+//					(int)data->player.y_i,
+//					data->map[(int)(data->player.x_i + data->ray.player_x * data->step)]
+//					[(int)data->player.y_i]);
+//		printf("w pressed\n");//adding a step towards the direction
 		if (data->map[(int)(data->player.x_i + data->ray.player_x * data->step)]
 				[(int)data->player.y_i] == '0')
 		{
-			printf("player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
-			printf("after step: player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
+//			printf("player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
+//			printf("after step: player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
 			data->player.x_i += data->ray.player_x * data->step;
 		}
 //		else
@@ -85,26 +85,21 @@ int	key_stroke(int key, t_data *data)
 				data->ray.player_y * data->step)]  == '0')
 			data->player.y_i += data->ray.player_y * data->step;
 	}
-	if (key == 0X73)//s
+	if (key == 0x73 || key == 0xff54)//s
 	{
-		printf("s pressed\n");
+	//	printf("s pressed\n");
 		if (data->map[(int)(data->player.x_i - data->ray.player_x * data->step)]
 				[(int)data->player.y_i] == '0')
 		{
-			printf("player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
+//			printf("player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
 			data->player.x_i -= data->ray.player_x * data->step;
-			printf("after step: player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
+//			printf("after step: player inital x %d player diretional ray.player_x %f\n", data->player.x_i, data->ray.player_x);
 		}
 		if (data->map[(int)data->player.x_i][(int)(data->player.y_i -
 				data->ray.player_y * data->step)]  == '0')
 			data->player.y_i -= data->ray.player_y * data->step;
 	}
 	key_r_l(key,data);
-	if (key == 0Xff51)//left
-		data->ray.player_y -= 0.3;
-	if (key == 0Xff53)//right
-		data->ray.player_y += 0.3;
 	render(data);
 	return (0);
 }
-

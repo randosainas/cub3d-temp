@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/09/30 08:05:35 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 19:07:38 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -50,8 +50,8 @@ typedef struct s_pos
 {
     size_t  x;//for 2D minimap
     size_t  y;
-	int		x_i;//current pos of player
-	int		y_i;
+	double		x_i;//current pos of player
+	double		y_i;
     int		face;
     int		player_found;
 }   t_pos;
@@ -158,6 +158,7 @@ void	err_msg(char *msg, t_data *data, int need_free);
 void		init_graphics(t_data *data);
 void		ft_exit(t_data *data);
 int			close_window(t_data *data);
+void		draw_ceiling_floor(t_data *data);
 int			render(t_data *data);
 void		pixel_put(t_img *img, int x, int y, int color);
 void		map_size(t_data *data);

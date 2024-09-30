@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:37:59 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/30 08:27:17 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/09/30 17:39:39 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cub3D.h"
@@ -32,8 +32,8 @@ void	dist_to_wall(t_data *data)
 	else
 		data->ray.p_wall_dist = (data->ray.side_y - data->ray.delta_y);
 	//Calculate height of line to draw on screen
-	if (fabs(data->ray.p_wall_dist) < 1e-8)//double is 0
-		data->ray.p_wall_dist = 1;//display the wall to max height
+//	if (fabs(data->ray.p_wall_dist) < 1e-8)//double is 0
+//		data->ray.p_wall_dist = 1;//display the wall to max height
 	data->ray.line_h = (int)(WIN_HEIGHT / data->ray.p_wall_dist);
 //	printf("ray.side_x %f, ray.side_y %f, ray.delta_x %f, ray.delta_y %f, perWallDist %f, lineH %d\n",
 ///	data->ray.side_x, data->ray.side_y, data->ray.delta_x, data->ray.delta_y, data->ray.p_wall_dist, data->ray.line_h);

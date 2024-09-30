@@ -6,7 +6,7 @@
 #    By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/27 13:57:50 by lpetit            #+#    #+#              #
-#    Updated: 2024/09/19 15:10:31 by rsainas          ###   ########.fr        #
+#    Updated: 2024/09/30 15:32:16 by rsainas          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -15,9 +15,9 @@ NAME	= cub3D
 CC		= cc
 
 SRCS 	= ./srcs/helper.c ./srcs/map_init.c ./srcs/main.c \
-./gnl/get_next_line.c ./gnl/get_next_line_utils.c ./srcs/render.c \
-./srcs/map_check.c ./srcs/closed.c \
-./srcs/init_graphics.c ./srcs/events.c ./srcs/draw_map.c \
+./gnl/get_next_line.c ./gnl/get_next_line_utils.c ./srcs/draw_map.c \
+./srcs/render.c ./srcs/map_check.c ./srcs/closed.c \
+./srcs/init_graphics.c ./srcs/events.c \
 ./srcs/cast_rays.c ./srcs/cast_helper.c ./srcs/key_hook.c \
 ./srcs/init_player.c
 
