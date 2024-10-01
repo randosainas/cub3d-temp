@@ -6,7 +6,7 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 20:52:03 by lpetit            #+#    #+#             */
-/*   Updated: 2024/09/30 19:07:38 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/01 20:32:55 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -80,7 +80,13 @@ typedef struct	s_ray
 	double	p_wall_dist;
 	double	plane_x;
 	double	plane_y;
-
+	double	wallX;//nameing
+	int		texX;
+	int		texY;	
+	double	step;
+    int		tex_nr;
+	double	texPos;
+	
 //old stuff
 	double	angle;
 	double	slope;
@@ -112,6 +118,7 @@ typedef struct s_data
     char    *so_path;
     char    *we_path;
     char    *ea_path;
+	int		*textures[4];
     t_color floor;
     t_color ceiling;
     t_copy  map_copy;
@@ -168,8 +175,7 @@ void		cast_rays(t_data *data);
 void		scale_pos_dir(t_data *data, int i);
 void		comp_ray_side_step(t_data *data);
 void		move_along_ray_dda(t_data *data);
-void		dist_to_wall(t_data *data);
-void		comp_textures(t_data *data);
 int			key_stroke(int key, t_data *data);
 void		init_player_pos(t_data *data);
+void		init_textures(t_data *data);
 #endif

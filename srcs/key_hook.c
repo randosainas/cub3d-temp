@@ -6,11 +6,43 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 19:58:37 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/30 19:24:23 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/01 11:20:45 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+@glance		a positive data->rot rotates counterclockwise and negative
+			clockwise.
+*/
+
 #include "cub3D.h"
+
+static void	key_strafe(int key, t_data *data)
+{
+	if (key == 0x61)//a
+	{
+		if (data->map[(int)(data->player.x_i - data->ray.plane_x * data->step)]
+				[(int)data->player.y_i] == '0' &&
+				data->map[(int)data->player.x_i][(int)(data->player.y_i -
+				data->ray.plane_y * data->step)]  == '0')
+		{
+			data->player.x_i -= data->ray.plane_x * data->step;
+			data->player.y_i -= data->ray.plane_y * data->step;
+		}
+	}
+	if (key == 0x64)//d
+	{
+		if (data->map[(int)(data->player.x_i + data->ray.plane_x * data->step)]
+				[(int)data->player.y_i] == '0' &&
+				data->map[(int)data->player.x_i][(int)(data->player.y_i +
+				data->ray.plane_y * data->step)]  == '0')
+		{
+			data->player.x_i += data->ray.plane_x * data->step;
+			data->player.y_i += data->ray.plane_y * data->step;
+		}
+	}
+}
+
 
 static void	key_r_l(int key, t_data *data)
 {
@@ -20,7 +52,7 @@ static void	key_r_l(int key, t_data *data)
 	temp_player_x = data->ray.player_x;
 	temp_plane_x = data->ray.plane_x;
 
-	if (key == 0x61 || key == 0xff51)//a
+	if (key == 0xff51)//left
 	{
 		data->ray.player_x = data->ray.player_x * cos(data->rot) -
 			data->ray.player_y * sin(data->rot);
@@ -31,16 +63,16 @@ static void	key_r_l(int key, t_data *data)
 		data->ray.plane_y = temp_plane_x * sin(data->rot) + 
 			data->ray.plane_y * cos(data->rot);
 	}
-	if (key == 0x64 || key == 0xff53)//d
+	if (key == 0xff53)//right
 	{
-		data->ray.player_x = data->ray.player_x * cos(- data->rot) -
+		data->ray.player_x = data->ray.player_x * cos(-data->rot) -
 			data->ray.player_y * sin(- data->rot);
-		data->ray.player_y = temp_player_x * sin(- data->rot) +
+		data->ray.player_y = temp_player_x * sin(-data->rot) +
 			data->ray.player_y * cos(- data->rot);
-		data->ray.plane_x = data->ray.plane_x * cos(- data->rot) -
+		data->ray.plane_x = data->ray.plane_x * cos(-data->rot) -
 			data->ray.plane_y * sin(- data->rot);
-		data->ray.plane_y = temp_plane_x * sin(- data->rot) + 
-			data->ray.plane_y * cos(- data->rot);
+		data->ray.plane_y = temp_plane_x * sin(-data->rot) + 
+			data->ray.plane_y * cos(-data->rot);
 	}
 }
 
@@ -63,7 +95,7 @@ int	key_stroke(int key, t_data *data)
 //		ft_exit(head);//TODO cleaning
 		exit (EXIT_SUCCESS);
 	}
-	if (key == 0x77 || key == 0xff52)//w
+	if (key == 0x77 || key == 0xff52)//w up
 	{			
 //		printf("I want to take this step x %f, int x %d, int y %d, map %c\n",
 //					(data->player.x_i + data->ray.player_x * data->step),
@@ -85,7 +117,7 @@ int	key_stroke(int key, t_data *data)
 				data->ray.player_y * data->step)]  == '0')
 			data->player.y_i += data->ray.player_y * data->step;
 	}
-	if (key == 0x73 || key == 0xff54)//s
+	if (key == 0x73 || key == 0xff54)//s down
 	{
 	//	printf("s pressed\n");
 		if (data->map[(int)(data->player.x_i - data->ray.player_x * data->step)]
@@ -99,7 +131,8 @@ int	key_stroke(int key, t_data *data)
 				data->ray.player_y * data->step)]  == '0')
 			data->player.y_i -= data->ray.player_y * data->step;
 	}
-	key_r_l(key,data);
+	key_strafe(key, data); 
+	key_r_l(key, data);
 	render(data);
 	return (0);
 }

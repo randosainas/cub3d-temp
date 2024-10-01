@@ -6,7 +6,7 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:03:12 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/30 19:37:24 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/01 20:17:08 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,6 @@ static	void	pixel_addr_init(t_data *data)
 	}
 }
 
-static	void	data_init(t_data *data)
-{
-	(void)data;
-}
-
 /*
 @glance			register 3 hooks on keys and mouse.
 */
@@ -53,14 +48,8 @@ static	void	events_init(t_data *data)
 	mlx_hook(data->win, 17, 0, close_window, data);
 	mlx_key_hook(data->win, key_stroke, data);
 	init_player_pos(data);
-	data->step = 0.50;
+	data->step = 0.5;
 	data->rot = 0.2;
-	data->ray.player_x = -1;
-	data->ray.player_y = 0;
-	data->ray.plane_x = 0;
-	data->ray.plane_y = 0.66;
-
-//	mlx_mouse_hook(data->win, mouse_roll, data);
 }
 
 /*
@@ -90,6 +79,6 @@ void	init_graphics(t_data *data)
 		malloc_failure();
 	}
 	pixel_addr_init(data);
-	data_init(data);
+	init_textures(data);
 	events_init(data);
 }
