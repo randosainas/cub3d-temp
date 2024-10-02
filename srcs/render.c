@@ -6,11 +6,11 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:22:23 by rsainas           #+#    #+#             */
-/*   Updated: 2024/09/30 15:46:15 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 11:45:56 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 /*
 @glance 	bytes are not alligned line_len differs from WIN_WIDTH therfore

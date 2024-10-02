@@ -6,7 +6,7 @@
 #    By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/27 13:57:50 by lpetit            #+#    #+#              #
-#    Updated: 2024/10/01 16:16:56 by rsainas          ###   ########.fr        #
+#    Updated: 2024/10/02 13:34:48 by rsainas          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -33,6 +33,8 @@ FLAGS	= -Wall -Wextra -Werror -g
 
 MLX_DIR = ./minilibx-linux
 
+HEADERS = includes/cub3d.h
+
 X = -L $(MLX_DIR) -lmlx -L /usr/X11R6/lib -lXext -lX11 -lm -lz -I$(MLX_DIR) -Ilmlx
 
 #X		= 	-L $(MLX_DIR) -lm -lmlx -lX11 -lz -I$(MLX_DIR) -Ilmlx
@@ -51,7 +53,7 @@ all: $(LIB) $(NAME)
 $(LIB):
 	$(MAKE) -C $(LIB_DIR)
 
-$(NAME):	$(OBJS)
+$(NAME):	$(OBJS) $(HEADERS)
 	@printf "$(CURSIVE)$(GRAY) 	- Compiling $(NAME)... $(RESET)\n"
 	$(CC) $(FLAGS) -I$(INCLUDES) $(OBJS) $(LIB) $(X) -o $(NAME)
 	@printf "$(GREEN)    - Executable ready.\n$(RESET)"

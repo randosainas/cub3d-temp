@@ -6,29 +6,11 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:09:19 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/27 15:29:49 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 13:27:48 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
-#include "cub3D.h"
-
-/*char    *skip_to_map(int fd, t_data *data)
-{
-    char    *line;
-    int     i;
-
-    i = 0;
-    line = get_next_line(fd);
-    if (!line)
-        return (NULL);
-    while (line && i < data->map_start)
-    {
-        i++;
-        free(line);
-        line = get_next_line(fd);
-    }
-    return (line);
-}*/
+#include "cub3d.h"
 
 void    set_color_ceiling(char *line, t_data *data)
 {
@@ -118,7 +100,7 @@ char    *init_element(t_data *data)
     data->map = NULL;
     data->map_start = 0;
     data->player.player_found = 0;
-    while (i < 6)//TODO element integrity check, in case one path is missing
+    while (i < 6)
     {
         line = skip_empty(data->fd, data);
         if (!line)

@@ -6,11 +6,11 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:31:04 by rsainas           #+#    #+#             */
-/*   Updated: 2024/10/01 11:31:02 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 16:54:36 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3D.h>
+#include <cub3d.h>
 /*
 @glance			scale the screen width, comp ray direction and ray vector.
 @scale & norm 	scale_x=2* this enables to scale the screen width
@@ -33,15 +33,11 @@ void	scale_pos_dir(t_data *data, int i)
 {
 	double	scale_x;
 
-	scale_x = 2 * i / (double)WIN_WIDTH - 1; //x-coordinate in camera space
+	scale_x = 2 * i / (double)WIN_WIDTH - 1;
 	data->ray.x = data->ray.player_x + data->ray.plane_x * scale_x;
 	data->ray.y = data->ray.player_y + data->ray.plane_y * scale_x;
-//	printf("scale_x %f data->ray.x/Y %f / %f\n", scale_x, data->ray.x, data->ray.y);
 	data->ray.map_x = data->player.x_i;
 	data->ray.map_y = data->player.y_i;
-//	printf("player's box: %d / %d\n", data->ray.map_x, data->ray.map_y);
-  //length of ray from current position to next x or y-side
-  //length of ray from one x or y-side to next x or y-side 
 	if (fabs(data->ray.x) < 1e-8)
 		data->ray.x = 314748366;
 	else
@@ -50,13 +46,14 @@ void	scale_pos_dir(t_data *data, int i)
 		data->ray.y = 3147483366;
 	else
 		data->ray.delta_y = fabs(1 / data->ray.y);
-//	printf("ray length x %f y %f\n", data->ray.delta_x, data->ray.delta_y);
 }
 
 /*
 @glance		compute one ray side step, who much the ray can move till the
 			first horisontal or vertical line crossing.
-			which direction to step 1 or -1.
+			which direction to step 1 or -1. This is different sixe from 
+			the next constant ray projections till crossing map lines 
+			ie delta_x and delta_y.
 */
 
 void	comp_ray_side_step(t_data *data)
@@ -64,48 +61,51 @@ void	comp_ray_side_step(t_data *data)
 	if (data->ray.x < 0)
 	{
 		data->ray.step_x = -1;
-		data->ray.side_x = (data->player.x_i - data->ray.map_x) * data->ray.delta_x;
+		data->ray.side_x = (data->player.x_i - data->ray.map_x)
+			* data->ray.delta_x;
 	}
-	else// ports assiging that value.  
+	else
 	{
 		data->ray.step_x = 1;
-		data->ray.side_x = (data->ray.map_x + 1.0 - data->player.x_i) * data->ray.delta_x;
+		data->ray.side_x = (data->ray.map_x + 1.0 - data->player.x_i)
+			* data->ray.delta_x;
 	}
 	if (data->ray.y < 0)
 	{
 		data->ray.step_y = -1;
-		data->ray.side_y = (data->player.y_i - data->ray.map_y) * data->ray.delta_y;
+		data->ray.side_y = (data->player.y_i - data->ray.map_y)
+			* data->ray.delta_y;
 	}
 	else
 	{
 		data->ray.step_y = 1;
-		data->ray.side_y = (data->ray.map_y + 1.0 - data->player.y_i) * data->ray.delta_y;
+		data->ray.side_y = (data->ray.map_y + 1.0 - data->player.y_i)
+			* data->ray.delta_y;
 	}
-//	printf("side.x sideDistx%f y %f\n", data->ray.side_x, data->ray.side_y);
-//	printf("sideDist x %f y %f\n", data->ray.side_x, data->ray.side_y);
 }
 
 /*
 @glance		DigitalDifferencialAnalyser is moving along the ray line, with
 			steps that have deltas on x and y axis. efficient comared to
-			moving by line equation with step as each point on the line. 
+			moving by line equation with step as each point on the line.
+@if			which ever projection is smaller is checked first not to miss
+			ray crossing ver or hor map lines.
 @side=0		ray hit the vertical line EW wall, 1 ray hit the hor grid line
 			ie NS wall.
-@side_x		cummulative distance on each axis a ray has travelled while hit. 
+@side_x		cummulative distance on each axis a ray has travelled while hit.
+@map_x		move to the next map square
+@2nd if		have we hid a wall
 */
 
 void	move_along_ray_dda(t_data *data)
 {
-	data->ray.hit = 0; 
-//	printf("()(map x %d, map_y %d\n", data->ray.map_x, data->ray.map_y);
+	data->ray.hit = 0;
 	while (data->ray.hit == 0)
 	{
-		//jump to next map square, either in x-direction, or in y-direction
-		if (data->ray.side_x < data->ray.side_y)//which ever smaller comes first not to
-			// miss any line crossings.
+		if (data->ray.side_x < data->ray.side_y)
 		{
 			data->ray.side_x += data->ray.delta_x;
-			data->ray.map_x += data->ray.step_x;//data->ray.map_x is the current box the ray is in
+			data->ray.map_x += data->ray.step_x;
 			data->ray.side = 0;
 		}
 		else
@@ -114,21 +114,7 @@ void	move_along_ray_dda(t_data *data)
 			data->ray.map_y += data->ray.step_y;
 			data->ray.side = 1;
 		}
-		  //Check if ray has hit a wall	
 		if (data->map[data->ray.map_x][data->ray.map_y] == '1')
-		{
 			data->ray.hit = 1;
-//			printf("map x %d, map_y %d\n", data->ray.map_x, data->ray.map_y);
-//			printf("player pos x  %d, pos y %d\n", data->player.x_i, data->player.y_i);
-//			printf("ray delta x  %f, ray delta y %f\n", data->ray.delta_x,
-//				   	data->ray.delta_y);
-//			printf("sideDist x %f y %f\n", data->ray.side_x, data->ray.side_y);
-//			printf("WALL @ data->ray.map_x %d data->ray.map_y %d\n", data->ray.map_x, data->ray.map_y);
-//		printf("map pos: %d, data->ray.map_x %d data->ray.map_y %d \n", data->map[data->ray.map_x][data->ray.map_y], data->ray.map_x, data->ray.map_y);
-		}
-//		if (data->ray.hit == 0)
-//		{
-//			printf("sideDist x %f y %f\n", data->ray.side_x, data->ray.side_y);
-//			printf("not found @ data->ray.map_x %d data->ray.map_y %d\n", data->ray.map_x, data->ray.map_y);
 	}
 }

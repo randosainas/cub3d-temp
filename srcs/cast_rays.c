@@ -6,10 +6,10 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 06:37:59 by rsainas           #+#    #+#             */
-/*   Updated: 2024/10/01 21:21:19 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 20:06:30 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "cub3D.h"
+#include "cub3d.h"
 
 /*			Calculate distance of perpendicular ray (
 			Euclidean distance would give fisheye effect!)*/
@@ -23,6 +23,7 @@
 @line_h				line height to be drawn on the screen is inversly
 					releated to window height. The closer the player to a wall
 					the higher the vertical line on the screen to be drawn.
+@utart & end		highest and lowest pixel of a screen pixcel column.
 */
 
 static void	dist_to_wall(t_data *data)
@@ -31,17 +32,9 @@ static void	dist_to_wall(t_data *data)
 		data->ray.p_wall_dist = (data->ray.side_x - data->ray.delta_x);
 	else
 		data->ray.p_wall_dist = (data->ray.side_y - data->ray.delta_y);
-	//Calculate height of line to draw on screen
-//	if (fabs(data->ray.p_wall_dist) < 1e-8)//double is 0
-//		data->ray.p_wall_dist = 1;//display the wall to max height
+	if (data->ray.p_wall_dist < 1e-6)
+		data->ray.p_wall_dist = 1e-6;
 	data->ray.line_h = (int)(WIN_HEIGHT / data->ray.p_wall_dist);
-//	printf("ray.side_x %f, ray.side_y %f, ray.delta_x %f, ray.delta_y %f, perWallDist %f, lineH %d\n",
-///	data->ray.side_x, data->ray.side_y, data->ray.delta_x, data->ray.delta_y, data->ray.p_wall_dist, data->ray.line_h);
- 
-	//calculate lowest and highest pixel to fill in current stripe
-	/*printf("side %d, dist %f, side_x %f, delta_x %f, side y %f, delta_y %f \n",
-			data->ray.side,  data->ray.p_wall_dist, data->ray.side_x, data->ray.delta_x,
-			data->ray.side_y, data->ray.delta_y);*/
 	data->ray.line_start = -data->ray.line_h / 2 + WIN_HEIGHT / 2;
 	if (data->ray.line_start < 0)
 		data->ray.line_start = 0;
@@ -63,72 +56,79 @@ static void	assign_texture_to_wall(t_data *data)
 	else if (data->ray.side == 1 && data->ray.y > 0)
 		data->ray.tex_nr = (data->map[data->ray.map_x][data->ray.map_y] - 48);
 	else if (data->ray.side == 0 && data->ray.x > 0)
-		data->ray.tex_nr = (data->map[data->ray.map_x][data->ray.map_y] - 47); 
+		data->ray.tex_nr = (data->map[data->ray.map_x][data->ray.map_y] - 47);
 	else if (data->ray.side == 1 && data->ray.y < 0)
 		data->ray.tex_nr = (data->map[data->ray.map_x][data->ray.map_y] - 46);
 }
 
+/*
+@glance		calc the x-axis value of a point (hit_wall_x) where this ray 
+			hit the wall.
+@ray.step	for every pixel on the screen, what is the step of pixel change
+			on the texture.
+			texture is small like 60pixels and the line is like 600 pixels,
+			so 10 pixels will be the same color on the screen.
+@tex_pos	calc start position for texture on y-axis, which pixel to take
+			from texture file.
+@future		consider the reason why casting to int is not the same as floor()
+*/
+
 static void	comp_textures(t_data *data)
 {
 	assign_texture_to_wall(data);
-	//calculate value of data->ray.wallX
-	//where exactly the wall was hit 
-	if (data->ray.side == 0) 
-			data->ray.wallX = data->player.y_i + data->ray.p_wall_dist * data->ray.y;
-		else
-			data->ray.wallX = data->player.x_i + data->ray.p_wall_dist * data->ray.x;
-		data->ray.wallX -= floor((data->ray.wallX));
-			      //x coordinate on the texture
-		data->ray.texX = (int)(data->ray.wallX * (double)TEXTURE_W);
-		if ((data->ray.side == 0 && data->ray.x > 0))
-//				(data->ray.side == 1 && data->ray.y < 0))
-			data->ray.texX = TEXTURE_W - data->ray.texX -1;
-		if (data->ray.side == 1 && data->ray.y < 0)
-			data->ray.texX = TEXTURE_W - data->ray.texX -1;
-
-      // How much to increase the texture coordinate per screen pixel
+	if (data->ray.side == 0)
+		data->ray.hit_wall_x = data->player.y_i
+			+ data->ray.p_wall_dist * data->ray.y;
+	else
+		data->ray.hit_wall_x = data->player.x_i
+			+ data->ray.p_wall_dist * data->ray.x;
+	data->ray.hit_wall_x -= floor(data->ray.hit_wall_x);
+	data->ray.tex_x = (int)(data->ray.hit_wall_x * (double)TEXTURE_W);
+	if ((data->ray.side == 0 && data->ray.x > 0))
+		data->ray.tex_x = TEXTURE_W - data->ray.tex_x -1;
+	if (data->ray.side == 1 && data->ray.y < 0)
+		data->ray.tex_x = TEXTURE_W - data->ray.tex_x -1;
 	data->ray.step = 1.0 * TEXTURE_H / data->ray.line_h;
-      // Starting texture coordinate
-	data->ray.texPos = (data->ray.line_start - WIN_HEIGHT /
-			2 + data->ray.line_h / 2) * data->ray.step;
+	data->ray.tex_pos = (data->ray.line_start - WIN_HEIGHT
+			/ 2 + data->ray.line_h / 2) * data->ray.step;
 }
+
 /*
 @glance		cast one ray per each pixel on window width.
 			comp distance from player to a hit wall. Fill one screen
 			column pixel by pixel.
-@texture	.......TODO
+@tex_y		cast texture to int and mask to protect overflow.
+@if			bitshift and mask to create illusion of shading, decresing each
+			color value.
+			>> 1 10000000 (128) becomes 01000000 (64) ie division by 2.
+			& 8355711 is 0x7f7f7f masking assures color in 0-255 range. 
 */
 
 void	cast_rays(t_data *data)
 {
-	int color;
-	int y;
-	int i;
-	
+	int	color;
+	int	y;
+	int	i;
+
 	i = 0;
 	while (i < WIN_WIDTH)
-    {
+	{
 		scale_pos_dir(data, i);
 		comp_ray_side_step(data);
 		move_along_ray_dda(data);
-		dist_to_wall(data);	
+		dist_to_wall(data);
 		comp_textures(data);
 		y = data->ray.line_start;
-		while (y < data->ray.line_end)
-     	{
- // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-			data->ray.texY = (int)data->ray.texPos & (TEXTURE_H - 1);
-			data->ray.texPos += data->ray.step;
-//		color = ORANGE;// + TEXTURE_W + data->texY + data->ray.texX;
-			color = data->textures[data->ray.tex_nr][TEXTURE_W * data->ray.texY + data->ray.texX];
-        //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+		while (y++, y < data->ray.line_end)
+		{
+			data->ray.tex_y = (int)data->ray.tex_pos & (TEXTURE_H - 1);
+			data->ray.tex_pos += data->ray.step;
+			color = data->textures[data->ray.tex_nr]
+			[TEXTURE_W * data->ray.tex_y + data->ray.tex_x];
 			if (data->ray.side == 1)
 				color = (color >> 1) & 8355711;
 			pixel_put(&data->img, i, y, color);
-			y++;
 		}
-//	printf("---------------------------Column on screen %d data->ray.line_start %d data->ray.line_end %d\n", i, data->ray.line_start, data->ray.line_end);
 		i++;
 	}
-//	printf("End of loop %d\n", x);
 }

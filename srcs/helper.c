@@ -6,11 +6,11 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 14:51:19 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/21 11:47:32 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 11:43:06 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void	get_map_size(t_data *data)
 {

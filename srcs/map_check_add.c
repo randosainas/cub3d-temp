@@ -6,11 +6,11 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 15:18:09 by rsainas           #+#    #+#             */
-/*   Updated: 2024/08/27 15:19:07 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 11:45:08 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 int	adv_strncmp(const char *s1, const char *s2)
 {

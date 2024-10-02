@@ -6,11 +6,11 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 13:16:23 by lpetit            #+#    #+#             */
-/*   Updated: 2024/10/01 19:55:36 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:40:14 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 int check_rgb(char *line)
 {
@@ -30,18 +30,6 @@ int check_rgb(char *line)
     return (0);
 }
 
-static void	assign_face(t_data *data, char c)
-{
-	if (c == 'E')
-		data->player.face = 0;
-	if (c == 'S')
-		data->player.face = 90;
-	if (c == 'W')
-		data->player.face = 180;
-	if (c == 'N')
-		data->player.face = 270;
-}	
-
 int check_content(char *line, t_data *data)
 {
     int i;
@@ -51,12 +39,10 @@ int check_content(char *line, t_data *data)
     {
         if (line[i] != '0' && line[i] != '1' && line[i] != 32)
         {
-            if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
+            if ((line[i] == 'N' || line[i] == 'S' ||
+						line[i] == 'E' || line[i] == 'W')
                 && data->player.player_found == 0)
-            {
-				assign_face(data, line[i]);
-                data->player.player_found = 1;
-            }
+				data->player.player_found = 1;
             else if ((line[i] != '\n' && line[i] != '\0') || (i == 0 && line[i] == '\n'))
                 return (1);
         }
@@ -88,7 +74,7 @@ void    map_content(char *line, t_data * data)
 
 void    parse_element(char *line, t_data *data)
 {
-    if (ft_strncmp(line, "NO", 2) == 0)//TODO will give a false positive in case "NOX"
+    if (ft_strncmp(line, "NO", 2) == 0)
         data->no_path = set_path(line, data);
     else if (ft_strncmp(line, "SO", 2) == 0)
         data->so_path = set_path(line, data);

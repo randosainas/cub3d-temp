@@ -6,11 +6,11 @@
 /*   By: lpetit <lpetit@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 15:29:46 by lpetit            #+#    #+#             */
-/*   Updated: 2024/08/22 09:51:43 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 11:42:27 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 void    find_player(char **map, t_pos *player)
 {

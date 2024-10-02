@@ -6,11 +6,11 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:30:17 by rsainas           #+#    #+#             */
-/*   Updated: 2024/08/15 18:21:45 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 11:42:46 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 int	close_window(t_data *data)
 {
@@ -31,5 +31,3 @@ void	ft_exit(t_data *data)
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 }
-
-

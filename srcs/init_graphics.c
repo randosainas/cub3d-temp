@@ -6,11 +6,11 @@
 /*   By: rsainas <rsainas@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 09:03:12 by rsainas           #+#    #+#             */
-/*   Updated: 2024/10/01 20:17:08 by rsainas          ###   ########.fr       */
+/*   Updated: 2024/10/02 11:41:17 by rsainas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "cub3d.h"
 
 static	void	malloc_failure(void)
 {
@@ -18,11 +18,6 @@ static	void	malloc_failure(void)
 	perror("Malloc from mlx libarary failed.");
 	exit(EXIT_FAILURE);
 }
-
-/*
-@ft_strcmp		a check of operating system since MacOs does not use
-				mlx_destroy_display function.
-*/
 
 static	void	pixel_addr_init(t_data *data)
 {
@@ -32,15 +27,15 @@ static	void	pixel_addr_init(t_data *data)
 	{
 		mlx_destroy_image(data->mlx, data->img.img);
 		mlx_destroy_window(data->mlx, data->win);
-//		if (ft_strncmp(OS, "Linux", 5) == 0)
-			mlx_destroy_display(data->mlx);
+		mlx_destroy_display(data->mlx);
 		free(data->mlx);
 		malloc_failure();
 	}
 }
 
 /*
-@glance			register 3 hooks on keys and mouse.
+@glance			register 2 hooks one on closing and another on keys.
+				initalize player position etc and payer step "length".
 */
 
 static	void	events_init(t_data *data)
@@ -64,8 +59,7 @@ void	init_graphics(t_data *data)
 	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, data->name);
 	if (!data->win)
 	{
-//		if (ft_strncmp(OS, "Linux", 5) == 0)
-			mlx_destroy_display(data->mlx);
+		mlx_destroy_display(data->mlx);
 		free(data->mlx);
 		malloc_failure();
 	}
@@ -73,8 +67,7 @@ void	init_graphics(t_data *data)
 	if (!data->img.img)
 	{	
 		mlx_destroy_window(data->mlx, data->win);
-//		if (ft_strncmp(OS, "Linux", 5) == 0)
-			mlx_destroy_display(data->mlx);
+		mlx_destroy_display(data->mlx);
 		free(data->mlx);
 		malloc_failure();
 	}
